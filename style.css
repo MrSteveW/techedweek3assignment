@@ -26,7 +26,6 @@ body {
   height: 85%;
   width: 100%;
   display: flex;
-  background-color: chocolate;
 }
 
 /* Lower Containers */
@@ -34,7 +33,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: red;
   height: 100%;
   width: 35%; /* % of lower */
 }
@@ -42,37 +40,52 @@ body {
   display: flex;
   align-items: end;
   justify-content: center;
-  background-color: hotpink;
   height: 100%;
   width: 30%; /* % of lower */
 }
-.addons-container {
+.upgrade-container {
   display: flex;
   align-items: end;
   justify-content: center;
-  background-color: forestgreen;
   height: 100%;
   width: 35%; /* % of lower */
 }
 
-/* Lower items */
-.data-item {
+/* Lower items IDs for JS */
+img {
+  height: 60%;
+  width: auto;
+  cursor: pointer;
+}
+#data-display {
   background-color: white;
   width: 80%;
   height: 20%;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 30px;
 }
 
-.brain-item {
-  background-color: white;
-  width: 80%;
-  height: 50%;
-  margin-bottom: 10px;
-}
-
-.addons-item {
+#upgrade-display {
+  font-size: 0.5rem;
   background-color: white;
   width: 80%;
   height: 90%;
+  border-radius: 10px;
   margin-bottom: 10px;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.upg {
+  color: red;
+  width: 20%;
+  height: 10%;
+}
+
+button {
+  font-size: 0.2rem;
+  height: 10%;
 }
