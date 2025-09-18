@@ -1,0 +1,78 @@
+body {
+  overflow: hidden;
+}
+.page {
+  background-color: steelblue;
+  display: flex;
+  height: 98vh;
+  max-width: 100vw;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-flow: column wrap;
+  text-align: center;
+}
+
+.top-banner {
+  background-color: yellow;
+  height: 15%;
+  width: 100%;
+}
+
+.lower {
+  height: 85%;
+  width: 100%;
+  display: flex;
+  background-color: chocolate;
+}
+
+/* Lower Containers */
+.data-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: red;
+  height: 100%;
+  width: 35%; /* % of lower */
+}
+.brain-container {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  background-color: hotpink;
+  height: 100%;
+  width: 30%; /* % of lower */
+}
+.addons-container {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  background-color: forestgreen;
+  height: 100%;
+  width: 35%; /* % of lower */
+}
+
+/* Lower items */
+.data-item {
+  background-color: white;
+  width: 80%;
+  height: 20%;
+  border-radius: 10px;
+}
+
+.brain-item {
+  background-color: white;
+  width: 80%;
+  height: 50%;
+  margin-bottom: 10px;
+}
+
+.addons-item {
+  background-color: white;
+  width: 80%;
+  height: 90%;
+  margin-bottom: 10px;
+}
