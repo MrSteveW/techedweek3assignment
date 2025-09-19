@@ -5,34 +5,42 @@ const npsDisplay = document.getElementById("nps");
 const upgradeDisplay = document.getElementById("upgrade-display");
 const messageDisplay = document.getElementById("message");
 
-// JS vars neuronCount, nps, state
-let neuronCount = 100;
-let nps = 20;
+const upgradeStock = [
+  { name: "Auto-Clicker", count: 0 },
+  { name: "Enhanced Oven", count: 0 },
+];
+
+// Set state of Neuron counter & Neurons/sec
 let state = {
-  neuronCount: 0,
+  neuronCount: 100,
   nps: 1,
 };
 
 // ## ON STARTUP ##
 fetchData();
-neuronsDisplay.textContent = neuronCount.toLocaleString("en-UK");
-npsDisplay.textContent = nps.toLocaleString("en-UK");
+displayState();
 
 // ## LISTEN FOR CLICKING ON BRAIN ##
 brain.addEventListener("click", () => {
-  neuronCount += nps;
-  neuronsDisplay.textContent = neuronCount.toLocaleString("en-UK");
+  state.neuronCount += state.nps;
+  displayState();
 });
 
 // ## UPDATING NEURON COUNT EVERY SECOND ##
 setInterval(() => {
-  neuronCount += nps;
-  neuronsDisplay.textContent = neuronCount;
+  state.neuronCount += state.nps;
+  displayState();
 }, 1000);
+
+// ## DISPLAY STATE ##
+function displayState() {
+  neuronsDisplay.textContent = state.neuronCount.toLocaleString("en-UK");
+  npsDisplay.textContent = state.nps.toLocaleString("en-UK");
+}
 
 // ## CHECK IF ENOUGH NEURONS TO BUY UPGRADE ##
 function checkUpgradePurchase(upgradeName, upgradeCost, npsIncrease) {
-  if (neuronCount >= upgradeCost) {
+  if (state.neuronCount >= upgradeCost) {
     buyUpgrade(upgradeName, upgradeCost, npsIncrease);
     displayMessage(`You now have a ${upgradeName}`);
   } else {
@@ -51,10 +59,9 @@ function displayMessage(message) {
 
 // ## BUY THE UPGRADE ##
 function buyUpgrade(upgradeName, neuronCost, npsIncrease) {
-  nps += npsIncrease;
-  neuronCount -= neuronCost;
-  neuronsDisplay.textContent = neuronCount.toLocaleString("en-UK");
-  npsDisplay.textContent = nps.toLocaleString("en-UK");
+  state.nps += npsIncrease;
+  state.neuronCount -= neuronCost;
+  displayState();
 }
 
 // This fetches the API - TO-DO inside it I want a function that creates DIVs

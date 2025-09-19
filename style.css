@@ -77,9 +77,15 @@ img {
   height: 20%;
   border-radius: 10px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 30px;
+  flex-direction: row;
+  gap: 4px; /* Reduce space between items */
+  font-size: 10px;
+}
+
+#data-display > * {
+  margin: 0; /* Remove default margins from divs and p tags */
+  padding: 0; /* Remove default padding */
+  line-height: 1.2; /* Tighter line spacing */
 }
 
 #upgrade-display {
