@@ -93,7 +93,7 @@ img {
   flex-flow: row wrap;
 }
 
-#warning {
+#message {
   width: 100%;
   background-color: rgb(255, 79, 79, 0.9);
   font-size: 0.5rem;
