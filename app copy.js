@@ -4,22 +4,16 @@ const neuronsDisplay = document.getElementById("numberCookies");
 const npsDisplay = document.getElementById("nps");
 const upgradeDisplay = document.getElementById("upgrade-display");
 const messageDisplay = document.getElementById("message");
-const header = document.getElementById("title");
+
+const upgradeStock = [
+  { name: "Auto-Clicker", count: 0 },
+  { name: "Enhanced Oven", count: 0 },
+];
 
 // Set state of Neuron counter & Neurons/sec
 let state = {
-  neuronCount: 1000,
-  nps: 50,
-  1: 0,
-  2: 0,
-  3: 0,
-  4: 0,
-  5: 0,
-  6: 0,
-  7: 0,
-  8: 0,
-  9: 0,
-  10: 0,
+  neuronCount: 100,
+  nps: 1,
 };
 
 // ## ON STARTUP ##
@@ -38,12 +32,6 @@ setInterval(() => {
   displayState();
 }, 1000);
 
-// ## UPDATE STOCK ##
-function updateStock(upgradeId) {
-  state[upgradeId]++;
-  document.getElementById(`stock${upgradeId}`).textContent = state[upgradeId];
-}
-
 // ## DISPLAY STATE ##
 function displayState() {
   neuronsDisplay.textContent = state.neuronCount.toLocaleString("en-UK");
@@ -51,14 +39,9 @@ function displayState() {
 }
 
 // ## CHECK IF ENOUGH NEURONS TO BUY UPGRADE ##
-function checkUpgradePurchase(
-  upgradeId,
-  upgradeName,
-  upgradeCost,
-  npsIncrease
-) {
+function checkUpgradePurchase(upgradeName, upgradeCost, npsIncrease) {
   if (state.neuronCount >= upgradeCost) {
-    buyUpgrade(upgradeId, upgradeCost, npsIncrease);
+    buyUpgrade(upgradeName, upgradeCost, npsIncrease);
     displayMessage(`You now have a ${upgradeName}`);
   } else {
     displayMessage("You don't have enough neurons yet... keep clicking!");
@@ -75,11 +58,10 @@ function displayMessage(message) {
 }
 
 // ## BUY THE UPGRADE ##
-function buyUpgrade(upgradeID, neuronCost, npsIncrease) {
+function buyUpgrade(upgradeName, neuronCost, npsIncrease) {
   state.nps += npsIncrease;
   state.neuronCount -= neuronCost;
   displayState();
-  updateStock(upgradeID);
 }
 
 // This fetches the API - TO-DO inside it I want a function that creates DIVs
@@ -88,14 +70,18 @@ async function fetchData() {
     "https://cookie-upgrade-api.vercel.app/api/upgrades"
   );
   const data = await response.json();
+  displayUpgrades(data); //forEach api object, display upgrade
+}
 
-  data.forEach(function (upgrade) {
+// This will loop through api data and
+function displayUpgrades(apidata) {
+  apidata.forEach(function (upgrade) {
     const upgradeName = document.createElement("div");
     upgradeName.innerText = upgrade.name;
     upgradeName.setAttribute("class", "upg");
     //
     const upgradeCost = document.createElement("div");
-    upgradeCost.innerText = upgrade.cost.toLocaleString("en-UK");
+    upgradeCost.innerText = upgrade.cost;
     upgradeCost.setAttribute("class", "upg");
     //
     const upgradeIncrease = document.createElement("div");
@@ -105,18 +91,12 @@ async function fetchData() {
     const upgradeStock = document.createElement("div");
     upgradeStock.innerText = 0;
     upgradeStock.setAttribute("class", "upg");
-    upgradeStock.setAttribute("id", "stock" + upgrade.id);
     //
     const upgradeButton = document.createElement("button");
     upgradeButton.innerText = "Buy";
     upgradeButton.setAttribute("class", "upg");
     upgradeButton.addEventListener("click", () => {
-      checkUpgradePurchase(
-        upgrade.id,
-        upgrade.name,
-        upgrade.cost,
-        upgrade.increase
-      ); //run function when clicked this button...
+      checkUpgradePurchase(upgrade.name, upgrade.cost, upgrade.increase); //run function when clicked this button...
     });
     //
     upgradeDisplay.append(
