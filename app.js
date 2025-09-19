@@ -7,6 +7,19 @@ const messageDisplay = document.getElementById("message");
 const header = document.getElementById("title");
 
 // Set state of Neuron counter & Neurons/sec
+
+const upgradeNames = {
+  1: "Trainee",
+  2: "Coach",
+  3: "Mentor",
+  4: "Zen master",
+  5: "Sensai",
+  6: "Leader",
+  7: "Savant",
+  8: "Guru",
+  9: "Genius",
+  10: "God-emperor",
+};
 let state = {
   neuronCount: 1000,
   nps: 50,
@@ -26,15 +39,28 @@ let state = {
 fetchData();
 displayState();
 
-// ## LISTEN FOR CLICKING ON BRAIN ##
+// ## SAVE STATE ##
+function saveState() {
+  localStorage.setItem("state", JSON.stringify(state));
+}
+// ## DISPLAY STATE ##
+function displayState() {
+  state = JSON.parse(localStorage.getItem("state"));
+  neuronsDisplay.textContent = state.neuronCount.toLocaleString("en-UK"); //this is loading from PC state <- move to localStorage state?
+  npsDisplay.textContent = state.nps.toLocaleString("en-UK"); //this is loading from PC state <- move to localStorage state?
+}
+
+// ## CLICKING ON BRAIN ##
 brain.addEventListener("click", () => {
   state.neuronCount += state.nps;
+  saveState();
   displayState();
 });
 
 // ## UPDATING NEURON COUNT EVERY SECOND ##
 setInterval(() => {
   state.neuronCount += state.nps;
+  saveState();
   displayState();
 }, 1000);
 
@@ -42,12 +68,6 @@ setInterval(() => {
 function updateStock(upgradeId) {
   state[upgradeId]++;
   document.getElementById(`stock${upgradeId}`).textContent = state[upgradeId];
-}
-
-// ## DISPLAY STATE ##
-function displayState() {
-  neuronsDisplay.textContent = state.neuronCount.toLocaleString("en-UK");
-  npsDisplay.textContent = state.nps.toLocaleString("en-UK");
 }
 
 // ## CHECK IF ENOUGH NEURONS TO BUY UPGRADE ##
@@ -59,7 +79,7 @@ function checkUpgradePurchase(
 ) {
   if (state.neuronCount >= upgradeCost) {
     buyUpgrade(upgradeId, upgradeCost, npsIncrease);
-    displayMessage(`You now have a ${upgradeName}`);
+    displayMessage(`Your growth mindset is at ${upgradeName}`);
   } else {
     displayMessage("You don't have enough neurons yet... keep clicking!");
   }
@@ -78,62 +98,57 @@ function displayMessage(message) {
 function buyUpgrade(upgradeID, neuronCost, npsIncrease) {
   state.nps += npsIncrease;
   state.neuronCount -= neuronCost;
+  saveState();
   displayState();
   updateStock(upgradeID);
 }
 
-// This fetches the API - TO-DO inside it I want a function that creates DIVs
+// This fetches the API once on page load
 async function fetchData() {
-  const response = await fetch(
-    "https://cookie-upgrade-api.vercel.app/api/upgrades"
-  );
-  const data = await response.json();
-
-  data.forEach(function (upgrade) {
-    const upgradeName = document.createElement("div");
-    upgradeName.innerText = upgrade.name;
-    upgradeName.setAttribute("class", "upg");
-    //
-    const upgradeCost = document.createElement("div");
-    upgradeCost.innerText = upgrade.cost.toLocaleString("en-UK");
-    upgradeCost.setAttribute("class", "upg");
-    //
-    const upgradeIncrease = document.createElement("div");
-    upgradeIncrease.innerText = upgrade.increase;
-    upgradeIncrease.setAttribute("class", "upg");
-    //
-    const upgradeStock = document.createElement("div");
-    upgradeStock.innerText = 0;
-    upgradeStock.setAttribute("class", "upg");
-    upgradeStock.setAttribute("id", "stock" + upgrade.id);
-    //
-    const upgradeButton = document.createElement("button");
-    upgradeButton.innerText = "Buy";
-    upgradeButton.setAttribute("class", "upg");
-    upgradeButton.addEventListener("click", () => {
-      checkUpgradePurchase(
-        upgrade.id,
-        upgrade.name,
-        upgrade.cost,
-        upgrade.increase
-      ); //run function when clicked this button...
-    });
-    //
-    upgradeDisplay.append(
-      upgradeName,
-      upgradeCost,
-      upgradeIncrease,
-      upgradeStock,
-      upgradeButton
+  try {
+    const response = await fetch(
+      "https://cookie-upgrade-api.vercel.app/api/upgrades"
     );
-  });
+    const data = await response.json();
+    data.forEach(function (upgrade) {
+      const upgradeName = document.createElement("div");
+      upgradeName.innerText = upgradeNames[upgrade.id];
+      upgradeName.setAttribute("class", "upgname");
+      //
+      const upgradeCost = document.createElement("div");
+      upgradeCost.innerText = upgrade.cost.toLocaleString("en-UK");
+      upgradeCost.setAttribute("class", "upg");
+      //
+      const upgradeIncrease = document.createElement("div");
+      upgradeIncrease.innerText = upgrade.increase;
+      upgradeIncrease.setAttribute("class", "upg");
+      //
+      const upgradeStock = document.createElement("div");
+      upgradeStock.innerText = state[upgrade.id];
+      upgradeStock.setAttribute("class", "upg");
+      upgradeStock.setAttribute("id", "stock" + upgrade.id);
+      //
+      const upgradeButton = document.createElement("button");
+      upgradeButton.innerText = "Buy";
+      upgradeButton.setAttribute("class", "upg");
+      upgradeButton.addEventListener("click", () => {
+        checkUpgradePurchase(
+          upgrade.id,
+          upgradeNames[upgrade.id],
+          upgrade.cost,
+          upgrade.increase
+        ); //run function when clicked this button...
+      });
+      //
+      upgradeDisplay.append(
+        upgradeName,
+        upgradeCost,
+        upgradeIncrease,
+        upgradeStock,
+        upgradeButton
+      );
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
-
-// listen for a click event on each of the buttons.
-// try to purchase the upgrade
-// can we afford the upgrade?
-// if we can afford the upgrade -
-// update nps to add the increase of the upgrade
-// take away the cost of the upgrade from our cookies
-// if we can't afford the upgrade?
-// send an alert to say 'you can't afford that.

@@ -91,7 +91,7 @@ img {
 #upgrade-display {
   font-size: 0.5rem;
   background-color: rgb(255, 255, 255, 0.9);
-  width: 80%;
+  width: 95%;
   height: 90%;
   border-radius: 10px;
   margin-bottom: 10px;
@@ -108,12 +108,17 @@ img {
 }
 
 .upg {
-  color: red;
-  width: 20%;
+  color: rgb(6, 100, 103);
+  width: 15.5%;
+  height: 10%;
+}
+.upgname {
+  color: rgb(6, 100, 103);
+  width: 30%;
   height: 10%;
 }
 
 button {
-  font-size: 0.2rem;
+  font-size: 0.5rem;
   height: 10%;
 }
