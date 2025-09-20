@@ -6,7 +6,7 @@ body {
   line-height: 1.4em;
 }
 .page {
-  background-image: url("neuronbgg.webp");
+  background-image: url("assets/neuronbgg.webp");
   background-size: contain;
   display: flex;
   height: 98vh;
@@ -71,6 +71,11 @@ img {
   width: auto;
   cursor: pointer;
 }
+
+img:active {
+  transform: translateX(5px) translateY(-10px);
+}
+
 #data-display {
   background-color: rgb(255, 255, 255, 0.9);
   width: 80%;
@@ -78,8 +83,12 @@ img {
   border-radius: 10px;
   display: flex;
   flex-direction: row;
-  gap: 4px; /* Reduce space between items */
+  gap: 10px; /* Reduce space between items */
   font-size: 10px;
+}
+
+#reset {
+  color: red;
 }
 
 #data-display > * {
@@ -92,7 +101,7 @@ img {
   font-size: 0.5rem;
   background-color: rgb(255, 255, 255, 0.9);
   width: 95%;
-  height: 90%;
+  height: 95%;
   border-radius: 10px;
   margin-bottom: 10px;
   display: flex;
@@ -110,15 +119,13 @@ img {
 .upg {
   color: rgb(6, 100, 103);
   width: 15.5%;
-  height: 10%;
 }
 .upgname {
   color: rgb(6, 100, 103);
   width: 30%;
-  height: 10%;
 }
 
 button {
   font-size: 0.5rem;
-  height: 10%;
+  height: 8%;
 }

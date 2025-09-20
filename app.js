@@ -4,24 +4,25 @@ const neuronsDisplay = document.getElementById("numberCookies");
 const npsDisplay = document.getElementById("nps");
 const upgradeDisplay = document.getElementById("upgrade-display");
 const messageDisplay = document.getElementById("message");
-const header = document.getElementById("title");
+const clickSound = document.getElementById("clickSound");
+const reset = document.getElementById("reset");
 
 // Set state of Neuron counter & Neurons/sec
 
 const upgradeNames = {
-  1: "Trainee",
+  1: "Student",
   2: "Coach",
   3: "Mentor",
-  4: "Zen master",
+  4: "Leader",
   5: "Sensai",
-  6: "Leader",
+  6: "Zen master",
   7: "Savant",
   8: "Guru",
   9: "Genius",
   10: "God-emperor",
 };
 let state = {
-  neuronCount: 1000,
+  neuronCount: 0,
   nps: 50,
   1: 0,
   2: 0,
@@ -43,6 +44,7 @@ displayState();
 function saveState() {
   localStorage.setItem("state", JSON.stringify(state));
 }
+
 // ## DISPLAY STATE ##
 function displayState() {
   state = JSON.parse(localStorage.getItem("state"));
@@ -53,6 +55,7 @@ function displayState() {
 // ## CLICKING ON BRAIN ##
 brain.addEventListener("click", () => {
   state.neuronCount += state.nps;
+  clickSound.play();
   saveState();
   displayState();
 });
@@ -120,7 +123,7 @@ async function fetchData() {
       upgradeCost.setAttribute("class", "upg");
       //
       const upgradeIncrease = document.createElement("div");
-      upgradeIncrease.innerText = upgrade.increase;
+      upgradeIncrease.innerText = `+${upgrade.increase}`;
       upgradeIncrease.setAttribute("class", "upg");
       //
       const upgradeStock = document.createElement("div");
@@ -129,7 +132,7 @@ async function fetchData() {
       upgradeStock.setAttribute("id", "stock" + upgrade.id);
       //
       const upgradeButton = document.createElement("button");
-      upgradeButton.innerText = "Buy";
+      upgradeButton.innerText = "Learn";
       upgradeButton.setAttribute("class", "upg");
       upgradeButton.addEventListener("click", () => {
         checkUpgradePurchase(
@@ -152,3 +155,24 @@ async function fetchData() {
     console.error(error);
   }
 }
+
+// ## RESET BUTTON
+reset.addEventListener("click", () => {
+  state = {
+    neuronCount: 0,
+    nps: 50,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0,
+  };
+  localStorage.clear();
+  saveState();
+  displayState();
+});

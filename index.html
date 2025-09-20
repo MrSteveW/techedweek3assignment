@@ -32,24 +32,43 @@
               <div>Neurons/sec</div>
               <p id="nps"></p>
             </div>
+            <button id="reset">Reset</button>
           </div>
           <!-- Brain column -->
           <div class="brain-container">
             <div id="message"></div>
-            <img src="brain.webp" />
+            <img src="assets/brain.webp" />
           </div>
           <!-- Upgrade column -->
           <div class="upgrade-container">
             <div id="upgrade-display">
-              <!-- <div class="upg">Auto-clicker</div>
-              <div class="upg">Cost</div>
-              <div class="upg">Increase</div>
-              <div class="upg">Num in stock</div>
-              <button class="upg">Buy</button> -->
+              <div class="upgname"><strong>Mindset level</strong></div>
+              <div class="upg"><strong>Cost</strong></div>
+              <div class="upg"><strong>Increase</strong></div>
+              <div class="upg"><strong>Stock</strong></div>
+              <div class="upg"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- Click audio -->
+    <div id="volume-container">
+      <p>Jump volume</p>
+      <input
+        type="range"
+        id="volume-bar"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.5"
+      />
+    </div>
+    <audio
+      id="clickSound"
+      src="./assets/clicksound.wav"
+      preload="auto"
+      autobuffer
+    ></audio>
   </body>
 </html>
