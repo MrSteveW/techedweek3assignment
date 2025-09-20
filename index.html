@@ -6,7 +6,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Delius&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
@@ -19,7 +23,9 @@
         <div class="top-banner">
           <div class="title" id="title">
             Growth mindset
-            <div><em>an idle game for positive thinking</em></div>
+            <div style="font-size: 0.8em">
+              <em>an idle game for positive thinking</em>
+            </div>
           </div>
         </div>
         <!-- Lower section-->
@@ -27,12 +33,33 @@
           <!-- 1. Data column -->
           <div class="data-container">
             <div id="data-display">
-              <div>Neurons</div>
-              <p id="numberCookies">0</p>
-              <div>Neurons/sec</div>
-              <p id="nps"></p>
+              <div>
+                Neurons
+                <p id="numberCookies">0</p>
+              </div>
+
+              <div>
+                Neurons/sec
+                <p id="nps"></p>
+              </div>
             </div>
-            <button id="reset">Reset</button>
+            <!-- Volume container -->
+            <div class="form-check form-switch">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                role="switch"
+                id="soundToggle"
+                checked
+              />
+              <label class="form-check-label" for="flexSwitchCheckDefault"
+                >Sound
+              </label>
+            </div>
+
+            <button id="reset" type="button" class="btn btn-danger">
+              Reset
+            </button>
           </div>
           <!-- Brain column -->
           <div class="brain-container">
@@ -44,7 +71,7 @@
             <div id="upgrade-display">
               <div class="upgname"><strong>Mindset level</strong></div>
               <div class="upg"><strong>Cost</strong></div>
-              <div class="upg"><strong>Increase</strong></div>
+              <div class="upg"><strong>+NPS</strong></div>
               <div class="upg"><strong>Stock</strong></div>
               <div class="upg"></div>
             </div>
@@ -53,20 +80,16 @@
       </div>
     </div>
     <!-- Click audio -->
-    <div id="volume-container">
-      <p>Jump volume</p>
-      <input
-        type="range"
-        id="volume-bar"
-        min="0"
-        max="1"
-        step="0.01"
-        value="0.5"
-      />
-    </div>
+
     <audio
       id="clickSound"
       src="./assets/clicksound.wav"
+      preload="auto"
+      autobuffer
+    ></audio>
+    <audio
+      id="upgradeSound"
+      src="./assets/upgradesound.wav"
       preload="auto"
       autobuffer
     ></audio>

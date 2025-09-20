@@ -5,10 +5,11 @@ const npsDisplay = document.getElementById("nps");
 const upgradeDisplay = document.getElementById("upgrade-display");
 const messageDisplay = document.getElementById("message");
 const clickSound = document.getElementById("clickSound");
+const upgradeSound = document.getElementById("upgradeSound");
+const soundToggle = document.getElementById("soundToggle");
 const reset = document.getElementById("reset");
 
-// Set state of Neuron counter & Neurons/sec
-
+// ## MODIFY UPGRADE NAMES ##
 const upgradeNames = {
   1: "Student",
   2: "Coach",
@@ -21,6 +22,8 @@ const upgradeNames = {
   9: "Genius",
   10: "God-emperor",
 };
+
+// ## SET STATE OF NEURON COUNTER, NPS & STOCK COUNTERS ##
 let state = {
   neuronCount: 0,
   nps: 50,
@@ -60,6 +63,17 @@ brain.addEventListener("click", () => {
   displayState();
 });
 
+// ## SOUND TOGGLE ##
+soundToggle.addEventListener("change", function () {
+  if (this.checked) {
+    document.getElementById("clickSound").volume = 1;
+    document.getElementById("upgradeSound").volume = 1;
+  } else {
+    document.getElementById("clickSound").volume = 0;
+    document.getElementById("upgradeSound").volume = 0;
+  }
+});
+
 // ## UPDATING NEURON COUNT EVERY SECOND ##
 setInterval(() => {
   state.neuronCount += state.nps;
@@ -88,15 +102,6 @@ function checkUpgradePurchase(
   }
 }
 
-// ## DISPLAY MESSAGE
-function displayMessage(message) {
-  messageDisplay.style.display = "inline";
-  messageDisplay.textContent = message;
-  setTimeout(() => {
-    messageDisplay.style.display = "none";
-  }, 2000);
-}
-
 // ## BUY THE UPGRADE ##
 function buyUpgrade(upgradeID, neuronCost, npsIncrease) {
   state.nps += npsIncrease;
@@ -104,6 +109,16 @@ function buyUpgrade(upgradeID, neuronCost, npsIncrease) {
   saveState();
   displayState();
   updateStock(upgradeID);
+  upgradeSound.play();
+}
+
+// ## DISPLAY MESSAGE
+function displayMessage(message) {
+  messageDisplay.style.display = "inline";
+  messageDisplay.textContent = message;
+  setTimeout(() => {
+    messageDisplay.style.display = "none";
+  }, 2000);
 }
 
 // This fetches the API once on page load
@@ -133,14 +148,14 @@ async function fetchData() {
       //
       const upgradeButton = document.createElement("button");
       upgradeButton.innerText = "Learn";
-      upgradeButton.setAttribute("class", "upg");
+      upgradeButton.setAttribute("class", "btn btn-success upg");
       upgradeButton.addEventListener("click", () => {
         checkUpgradePurchase(
           upgrade.id,
           upgradeNames[upgrade.id],
           upgrade.cost,
           upgrade.increase
-        ); //run function when clicked this button...
+        );
       });
       //
       upgradeDisplay.append(
@@ -158,21 +173,29 @@ async function fetchData() {
 
 // ## RESET BUTTON
 reset.addEventListener("click", () => {
-  state = {
-    neuronCount: 0,
-    nps: 50,
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 0,
-  };
-  localStorage.clear();
-  saveState();
-  displayState();
+  confirm("Are you sure you wish to delete all game data?");
+  if (true) {
+    localStorage.clear();
+    state = {
+      neuronCount: 0,
+      nps: 50,
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0,
+      6: 0,
+      7: 0,
+      8: 0,
+      9: 0,
+      10: 0,
+    };
+    // Reset all stock totals
+    for (let i = 1; i <= 10; i++) {
+      const stockDiv = document.getElementById(`stock${i}`);
+      stockDiv.textContent = 0;
+    }
+    saveState();
+    displayState();
+  }
 });
