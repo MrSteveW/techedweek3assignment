@@ -131,24 +131,39 @@ async function fetchData() {
     data.forEach(function (upgrade) {
       const upgradeName = document.createElement("div");
       upgradeName.innerText = upgradeNames[upgrade.id];
+      upgradeName.setAttribute("aria-hidden", "true");
       upgradeName.setAttribute("class", "upgname");
       //
       const upgradeCost = document.createElement("div");
       upgradeCost.innerText = upgrade.cost.toLocaleString("en-UK");
+      upgradeCost.setAttribute("aria-hidden", "true");
       upgradeCost.setAttribute("class", "upg");
       //
       const upgradeIncrease = document.createElement("div");
       upgradeIncrease.innerText = `+${upgrade.increase}`;
+      upgradeIncrease.setAttribute("aria-hidden", "true");
       upgradeIncrease.setAttribute("class", "upg");
       //
       const upgradeStock = document.createElement("div");
       upgradeStock.innerText = state[upgrade.id];
       upgradeStock.setAttribute("class", "upg");
+      upgradeStock.setAttribute("aria-hidden", "true");
       upgradeStock.setAttribute("id", "stock" + upgrade.id);
       //
       const upgradeButton = document.createElement("button");
       upgradeButton.innerText = "Learn";
       upgradeButton.setAttribute("class", "btn btn-success upg");
+      //
+      const descId = `desc-upgrade-${upgrade.id}`;
+      const descSpan = document.createElement("span");
+      descSpan.id = descId;
+      descSpan.className = "visually-hidden";
+      descSpan.textContent = `Click to buy upgrade ${upgradeNames[upgrade.id]}`;
+      upgradeDisplay.appendChild(descSpan);
+
+      // Set aria-describedby to the id
+      upgradeButton.setAttribute("aria-describedby", descId);
+
       upgradeButton.addEventListener("click", () => {
         checkUpgradePurchase(
           upgrade.id,
