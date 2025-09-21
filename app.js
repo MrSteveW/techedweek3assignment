@@ -40,6 +40,7 @@ let state = {
 };
 
 // ## ON STARTUP ##
+localStorage.setItem("state", JSON.stringify(state)); //save state on startup
 fetchData();
 displayState();
 
