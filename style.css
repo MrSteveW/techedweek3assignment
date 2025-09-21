@@ -4,6 +4,7 @@ body {
   font-weight: 400;
   font-optical-sizing: auto;
   line-height: 1.4em;
+  font-size: 1rem;
 }
 .page {
   background-image: url("assets/neuronbgg.webp");
