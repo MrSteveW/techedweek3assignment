@@ -29,6 +29,7 @@ body {
   font-weight: 600;
   display: flex;
   justify-content: center;
+  font-size: 2rem;
 }
 
 .title {
@@ -93,7 +94,8 @@ img:active {
 #data-display > div {
   display: flex;
   align-items: center;
-  gap: 0.5em; /* optional: space between label and value */
+  gap: 0.5em;
+  font-size: 1.5rem;
 }
 #data-display p {
   margin: 0;
