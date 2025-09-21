@@ -26,7 +26,7 @@ const upgradeNames = {
 // ## SET STATE OF NEURON COUNTER, NPS & STOCK COUNTERS ##
 let state = {
   neuronCount: 0,
-  nps: 50,
+  nps: 1,
   1: 0,
   2: 0,
   3: 0,
@@ -193,7 +193,7 @@ reset.addEventListener("click", () => {
     localStorage.clear();
     state = {
       neuronCount: 0,
-      nps: 50,
+      nps: 1,
       1: 0,
       2: 0,
       3: 0,
