@@ -41,7 +41,6 @@ let state = {
 
 // ## ON STARTUP ##
 fetchData();
-displayState();
 
 // ## SAVE STATE ##
 function saveState() {
