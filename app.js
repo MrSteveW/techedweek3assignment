@@ -181,6 +181,8 @@ async function fetchData() {
         upgradeButton
       );
     });
+    saveState();
+    displayState();
   } catch (error) {
     console.error(error);
   }
